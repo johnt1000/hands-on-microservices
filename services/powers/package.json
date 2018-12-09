@@ -1,0 +1,17 @@
+{
+  "name": "powers",
+  "version": "1.0.0",
+  "description": "Powers",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
+    "hapi": "^17.8.1"
+  }
+}
