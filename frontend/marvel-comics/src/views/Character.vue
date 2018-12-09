@@ -8,38 +8,32 @@
             <div class="details">
                 <p><b>ID:</b> {{ personage.id }}</p>
                 <p><b>Name:</b> {{ personage.name }}</p>
-                <p><b>Description:</b> {{ personage.description }}</p>
             </div>
         </div>
 
         <div class="viewport">
             <md-toolbar :md-elevation="1">
-                <span class="md-title">Inset</span>
+                <span class="md-title">
+                    <md-icon>description</md-icon> Description
+                </span>
             </md-toolbar>
 
+            <md-content>
+                <p>{{ personage.description }}</p>
+            </md-content>
+        </div>
+
+        <div class="viewport">
+            <md-toolbar :md-elevation="1">
+                <span class="md-title">
+                    <md-icon>chrome_reader_mode</md-icon> Comics
+                </span>
+            </md-toolbar>
             <md-list>
-                <md-list-item>
-                <md-icon>move_to_inbox</md-icon>
-                <span class="md-list-item-text">Inbox</span>
+                <md-list-item v-for="comic in personage.comics.items" :key="comic.name">
+                    <md-icon>send</md-icon>
+                    <span class="md-list-item-text">{{ comic.name }}</span>
                 </md-list-item>
-
-                <md-list-item>
-                <md-icon>send</md-icon>
-                <span class="md-list-item-text">Sent Mail</span>
-                </md-list-item>
-
-                <md-list-item>
-                <md-icon>delete</md-icon>
-                <span class="md-list-item-text">Trash</span>
-                </md-list-item>
-
-                <md-list-item>
-                <md-icon>error</md-icon>
-                <span class="md-list-item-text">Spam</span>
-                </md-list-item>
-
-                <md-divider class="md-inset"></md-divider>
-
             </md-list>
         </div>
 
@@ -88,5 +82,9 @@ export default {
     }
     .md-app-content {
         /* overflow: hidden; */
+    }
+    .md-content {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 </style>
