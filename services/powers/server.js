@@ -11,13 +11,23 @@ const urlComplment = '?api_key=' + privateKey + '&format=' + format;
 
 async function getPowers(name) {
     try {
-        let url = urlBase + "/powers/" + urlComplment+ "&limit=100&name=" + name;
+        let url = urlBase + "/characters/" + urlComplment+ "&limit=1&field_list=name,api_detail_url&filter=name:" + name;
         const powerPromise = axios(url);
         const [powers] = await Promise.all([
             powerPromise
         ]);
 
-        return powers.data;
+        if(powers.data.results.length > 0) {
+            let url = powers.data.results[0].api_detail_url + urlComplment + "&field_list=name,character_enemies,character_friends,powers";
+            const powersPromise = axios(url);
+            const [powersChar] = await Promise.all([
+                powersPromise
+            ]);
+
+            return powersChar.data.results;
+        } else {
+            return { results: { data: {} } };
+        }
     } catch (e) {
         console.error(e); // error
     }
@@ -33,10 +43,10 @@ const server = Hapi.server({
 
 server.route({
     method:'GET',
-    path:'/find/name/{name}',
+    path:'/powers/name/{name}',
     handler:function(request,h) {
         let name = request.params.name;
-        if(id != "") {
+        if(name != "") {
             return getPowers(name);
         } else {
             return { results: { data: {} } };
