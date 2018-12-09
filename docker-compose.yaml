@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+
+  web:
+    image: marvel/web
+    build:
+      context: ./frontend/marvel-comics
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/marvel-comics:/app
+      - /app/node_modules
+    depends_on:
+      - gateway
+    networks:
+      - frontend
+
+  gateway:
+    image: marvel/gateway
+    build:
+      context: ./gateway
+    ports:
+      - 80:80
+    volumes:
+      - ./gateway:/etc/nginx/conf.d
+    depends_on:
+      - characters
+    networks:
+      - backend
+      - frontend
+
+  characters:
+    image: marvel/characters
+    restart: always
+    build:
+      context: ./services/characters
+    volumes:
+      - ./services/characters:/app
+      - /app/node_modules
+    ports:
+      - 8000:8000
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge

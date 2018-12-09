@@ -1,0 +1,13 @@
+server {
+    listen 80; 
+    server_name _; 
+
+    location = /favicon.ico { access_log off; log_not_found off; } 
+    # rewrite ^/$ /characters/ redirect;
+
+    location /characters/ {
+        add_header 'Access-Control-Allow-Origin' '*'; # permission
+        proxy_pass http://characters:8000/;
+        include conf.d/proxy_params;
+    } 
+}
