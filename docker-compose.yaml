@@ -22,10 +22,10 @@ services:
       context: ./gateway
     ports:
       - 80:80
-    volumes:
-      - ./gateway:/etc/nginx/conf.d
     depends_on:
       - characters
+    volumes:
+      - ./gateway:/etc/nginx/conf.d
     networks:
       - backend
       - frontend
@@ -40,6 +40,35 @@ services:
       - /app/node_modules
     ports:
       - 8000:8000
+    depends_on:
+      - rabbit
+    networks:
+      - backend
+
+  powers:
+    image: marvel/powers
+    restart: always
+    build:
+      context: ./services/powers
+    volumes:
+      - ./services/powers:/app
+      - /app/node_modules
+    ports:
+      - 8001:8000
+    depends_on:
+      - rabbit
+    networks:
+      - backend
+    
+  rabbit:
+    image: marvel/rabbit
+    restart: always
+    build:
+      context: ./services/rabbit
+    env_file:
+      - ./services/rabbit/.env
+    ports:
+      - 8080:15672
     networks:
       - backend
 

@@ -15,7 +15,7 @@ const urlComplment = "?ts=" + ts + "&apikey=" + publicKey + "&hash=" + hash;
 
 async function getCharactersData(offset) {
     try {
-        let url = urlBase + "/characters" + urlComplment+ "&limit=10&offset=" + offset;
+        let url = urlBase + "/characters" + urlComplment+ "&limit=100&offset=" + offset;
         const characterPromise = axios(url);
         const [characters] = await Promise.all([
             characterPromise
@@ -41,6 +41,20 @@ async function getCharacterData(id) {
     }
 }
 
+async function getSearchCharacter(name) {
+    try {
+        let url = urlBase + "/characters" + urlComplment+ "&nameStartsWith=" + name;
+        const characterPromise = axios(url);
+        const [character] = await Promise.all([
+            characterPromise
+        ]);
+
+        return character.data;
+    } catch (e) {
+        console.error(e); // error
+    }
+}
+
 // Create a server with a host and port
 const server = Hapi.server({
     host:'0.0.0.0',
@@ -54,8 +68,8 @@ server.route({
     handler:function(request,h) {
         let offset = request.params.page;
         if(offset > 1) {
-            offset += 1;
-            offset *= 10;
+            // offset += 1;
+            offset *= 100;
         } else {
             offset = 0;
         }
@@ -69,7 +83,21 @@ server.route({
     handler:function(request,h) {
         let id = request.params.id;
         if(id > 0) {
-            return getCharacterData(request.params.id);
+            return getCharacterData(id);
+        } else {
+            return { results: { data: {} } };
+        }
+        
+    }
+});
+
+server.route({
+    method:'GET',
+    path:'/search/name/{name}',
+    handler:function(request,h) {
+        let name = request.params.name;
+        if(name != "") {
+            return getSearchCharacter(name);
         } else {
             return { results: { data: {} } };
         }
