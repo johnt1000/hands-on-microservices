@@ -15,7 +15,7 @@ const urlComplment = "?ts=" + ts + "&apikey=" + publicKey + "&hash=" + hash;
 
 async function getCharactersData(offset) {
     try {
-        let url = urlBase + "/characters" + urlComplment+ "&limit=10&offset=" + offset;
+        let url = urlBase + "/characters" + urlComplment+ "&limit=100&offset=" + offset;
         const characterPromise = axios(url);
         const [characters] = await Promise.all([
             characterPromise
@@ -54,8 +54,8 @@ server.route({
     handler:function(request,h) {
         let offset = request.params.page;
         if(offset > 1) {
-            offset += 1;
-            offset *= 10;
+            // offset += 1;
+            offset *= 100;
         } else {
             offset = 0;
         }

@@ -1,14 +1,33 @@
 <template>
     <div>
-        <div>
-            <img
+
+        <img
             :src="personage.thumbnail.path + '.' + personage.thumbnail.extension"
             :alt="personage.name"
-            >
-            <div class="details">
-                <p><b>ID:</b> {{ personage.id }}</p>
-                <p><b>Name:</b> {{ personage.name }}</p>
-            </div>
+        >
+
+        <router-link to="/">
+        <md-button class="md-icon-button md-fab md-primary">
+            <md-icon>arrow_back</md-icon>
+        </md-button>
+        </router-link>
+
+        <div class="viewport">
+            <md-toolbar :md-elevation="1">
+                <span class="md-title">
+                    <md-icon>info</md-icon> Info
+                </span>
+            </md-toolbar>
+            <md-list>
+                <md-list-item>
+                    <md-icon>vpn_key</md-icon>
+                    <span class="md-list-item-text">{{ personage.id }}</span>
+                </md-list-item>
+                <md-list-item>
+                    <md-icon>perm_identity</md-icon>
+                    <span class="md-list-item-text">{{ personage.name }}</span>
+                </md-list-item>
+            </md-list>
         </div>
 
         <div class="viewport">
@@ -70,21 +89,16 @@ export default {
 </script>
 
 <style scope>
-    img {
-        width: 25%;
-        float: left;
-        margin-right: 1%;
-        margin-bottom: 3%;
-    }
-    .details {
-        width: 70%;
-        float: left;
-    }
-    .md-app-content {
-        /* overflow: hidden; */
-    }
-    .md-content {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
+img {
+    width: 25%;
+    /* float: left; */
+    margin-right: 1%;
+    margin-bottom: 3%;
+}
+.md-card {
+    height: auto;
+}
+.md-icon-button {
+    float: right;
+}
 </style>
