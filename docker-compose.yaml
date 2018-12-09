@@ -22,6 +22,8 @@ services:
       context: ./gateway
     ports:
       - 80:80
+    depends_on:
+      - characters
     volumes:
       - ./gateway:/etc/nginx/conf.d
     networks:
@@ -39,7 +41,6 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - gateway
       - rabbit
     networks:
       - backend

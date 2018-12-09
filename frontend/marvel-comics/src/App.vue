@@ -1,6 +1,7 @@
 <template>
   <div class="page-container">
     <md-app md-waterfall md-mode="overlap">
+      
       <md-app-toolbar class="md-primary md-large">
         <div class="md-toolbar-row">
           <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
@@ -63,7 +64,6 @@
 </style>
 
 <script>
-
 export default {
   name: 'Overlap',
   data: () => ({
@@ -71,3 +71,6 @@ export default {
   })
 }
 </script>
+
+<style scoped>
+</style>

@@ -38,8 +38,6 @@ export default {
   .md-card {
     width: 30%;
     margin: 1%;
-    /* display: inline-block; */
-    vertical-align: top;
     float: left;
   }
 </style>
