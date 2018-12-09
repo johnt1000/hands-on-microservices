@@ -7,9 +7,9 @@
         >
 
         <router-link to="/">
-        <md-button class="md-icon-button md-fab md-primary">
-            <md-icon>arrow_back</md-icon>
-        </md-button>
+            <md-button class="md-icon-button md-fab md-primary">
+                <md-icon>arrow_back</md-icon>
+            </md-button>
         </router-link>
 
         <div class="viewport">

@@ -3,9 +3,9 @@
     <div class="row search">
       <md-field>
         <label>Character's name</label>
-        <md-input></md-input>
+        <md-input v-model="searchName"></md-input>
       </md-field>
-      <md-button class="md-raised md-primary">
+      <md-button @click="search" class="md-raised md-primary">
         <md-icon>search</md-icon> Search
       </md-button>
     </div>
@@ -33,7 +33,8 @@ export default {
   data () {
     return {
       page: 1,
-      characters: []
+      characters: [],
+      searchName: null
     }
   },
   mounted() {
@@ -45,11 +46,26 @@ export default {
       this.$http.get(uri).then(response => {
         // console.log(response.body.data.results);
         if (response.body.data.results.length) {
-          this.characters.push(...response.body.data.results);
+          this.characters.push(...response.body.data.results)
         }
       }, response => {
         // error callback
-        console.log(response);
+        console.log(response)
+      });
+
+    },
+    search() {
+      let uri = process.env.VUE_APP_ENDPOINT_CHARACTER_SEARCH + '/name/' + this.searchName
+      console.log(uri)
+      this.$http.get(uri).then(response => {
+        if (response.body.data.results.length) {
+          this.characters = response.body.data.results
+        } else {
+          alert('Search with no results')
+        }
+      }, response => {
+        // error callback
+        console.log(response)
       });
 
     },
