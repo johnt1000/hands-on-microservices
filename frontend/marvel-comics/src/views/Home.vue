@@ -1,6 +1,15 @@
 <template>
   <md-content>
-     <div class="row">
+    <div class="row search">
+      <md-field>
+        <label>Character's name</label>
+        <md-input></md-input>
+      </md-field>
+      <md-button class="md-raised md-primary">
+        <md-icon>search</md-icon> Search
+      </md-button>
+    </div>
+    <div class="row">
       <div v-for="character in characters" :key="character.id">
         <CardCharacter :personage="character" />
       </div>
@@ -58,10 +67,21 @@ export default {
   overflow: hidden;
   text-align: center;
 }
+.row.search {
+  width: 96%;
+  margin: 0 auto;
+}
 .md-button {
   clear: both;
 }
 .md-app-content {
   height: auto !important;
+}
+.md-field {
+  width: 77% !important;
+  float: left;
+}
+.row.search .md-button {
+  width: 20% !important;
 }
 </style>
