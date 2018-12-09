@@ -44,6 +44,21 @@ services:
       - rabbit
     networks:
       - backend
+
+  powers:
+    image: marvel/powers
+    restart: always
+    build:
+      context: ./services/powers
+    volumes:
+      - ./services/powers:/app
+      - /app/node_modules
+    ports:
+      - 8001:8000
+    depends_on:
+      - rabbit
+    networks:
+      - backend
     
   rabbit:
     image: marvel/rabbit
