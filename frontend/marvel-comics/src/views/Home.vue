@@ -22,12 +22,12 @@
 
 <script>
 import CardCharacter from '@/components/CardCharacter.vue'
-import InfiniteLoading from 'vue-infinite-loading'
+// import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   name: 'home',
   components: {
-    InfiniteLoading,
+    // InfiniteLoading,
     CardCharacter,
   },
   data () {
