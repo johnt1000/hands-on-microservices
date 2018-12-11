@@ -13,7 +13,7 @@
         </router-link>
 
         <div class="viewport">
-            <md-toolbar :md-elevation="1">
+            <md-toolbar :md-elevation="2">
                 <span class="md-title">
                     <md-icon>info</md-icon> Info
                 </span>
@@ -31,19 +31,33 @@
         </div>
 
         <div class="viewport">
-            <md-toolbar :md-elevation="1">
+            <md-toolbar :md-elevation="2">
                 <span class="md-title">
                     <md-icon>description</md-icon> Description
                 </span>
             </md-toolbar>
 
             <md-content>
-                <p>{{ personage.description }}</p>
+                <p class="description">{{ personage.description }}</p>
             </md-content>
         </div>
 
         <div class="viewport">
-            <md-toolbar :md-elevation="1">
+            <md-toolbar :md-elevation="2">
+                <span class="md-title">
+                    <md-icon>star</md-icon> Powers
+                </span>
+            </md-toolbar>
+            <md-list>
+                <md-list-item v-for="power in powers.powers" :key="power.name">
+                    <md-icon>star_border</md-icon>
+                    <span class="md-list-item-text">{{ power.name }}</span>
+                </md-list-item>
+            </md-list>
+        </div>
+
+        <div class="viewport">
+            <md-toolbar :md-elevation="2">
                 <span class="md-title">
                     <md-icon>chrome_reader_mode</md-icon> Comics
                 </span>
@@ -71,18 +85,29 @@ export default {
     },
     data () {
         return {
-            personage: null
+            personage: null,
+            powers: null
         }
     },
     methods: {
         getPersonage() {
             let uri = process.env.VUE_APP_ENDPOINT_CHARACTER_FIND + '/id/' + this.id
             this.$http.get(uri).then(response => {
-            this.personage = response.body.data.results[0]
-            console.log(this.personage)
+                this.personage = response.body.data.results[0]
+                this.getPowers(this.personage.name)
+                console.log(this.personage)
             }, response => {
                 console.log(response)
-        });
+            });
+        },
+        getPowers(name) {
+            let uri = process.env.VUE_APP_ENDPOINT_CHARACTER_POWERS + '/' + name
+            this.$http.get(uri).then(response => {
+                this.powers = response.body
+                console.log(this.powers)
+            }, response => {
+                console.log(response)
+            });
         }
     }
 }
@@ -100,5 +125,11 @@ img {
 }
 .md-icon-button {
     float: right;
+}
+.description {
+    margin-left: 1%;
+}
+.viewport {
+    margin-bottom: 2%;
 }
 </style>
