@@ -55,8 +55,6 @@ services:
       - /app/node_modules
     ports:
       - 8001:8001
-    depends_on:
-      - rabbit
     networks:
       - backend
     
@@ -72,6 +70,19 @@ services:
       - 8002:8002
     depends_on:
       - rabbit
+    networks:
+      - backend
+
+  news:
+    image: marvel/news
+    restart: always
+    build:
+      context: ./services/news
+    volumes:
+      - ./services/news:/app
+      - /app/node_modules
+    ports:
+      - 8003:8003
     networks:
       - backend
     
