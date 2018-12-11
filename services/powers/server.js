@@ -18,7 +18,7 @@ async function getPowers(name) {
         ]);
 
         if(powers.data.results.length > 0) {
-            let url = powers.data.results[0].api_detail_url + urlComplment + "&field_list=name,character_enemies,character_friends,powers";
+            let url = powers.data.results[0].api_detail_url + urlComplment + "&field_list=name,powers";
             const powersPromise = axios(url);
             const [powersChar] = await Promise.all([
                 powersPromise
@@ -36,14 +36,14 @@ async function getPowers(name) {
 // Create a server with a host and port
 const server = Hapi.server({
     host:'0.0.0.0',
-    port:8000
+    port:8001
 });
 
 // Add the route
 
 server.route({
     method:'GET',
-    path:'/powers/name/{name}',
+    path:'/byCharacter/{name}',
     handler:function(request,h) {
         let name = request.params.name;
         if(name != "") {
