@@ -3,6 +3,8 @@ node_modules
 */dist
 default.conf
 
+services/printer/public/pdf/character/*
+
 # local env files
 .env
 *.env.local

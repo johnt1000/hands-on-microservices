@@ -54,7 +54,22 @@ services:
       - ./services/powers:/app
       - /app/node_modules
     ports:
-      - 8001:8000
+      - 8001:8001
+    depends_on:
+      - rabbit
+    networks:
+      - backend
+    
+  printer:
+    image: marvel/printer
+    restart: always
+    build:
+      context: ./services/printer
+    volumes:
+      - ./services/printer:/app
+      - /app/node_modules
+    ports:
+      - 8002:8002
     depends_on:
       - rabbit
     networks:
@@ -68,7 +83,9 @@ services:
     env_file:
       - ./services/rabbit/.env
     ports:
-      - 8080:15672
+      - 15672:15672
+      - 5672:5672
+      - 25672:25672
     networks:
       - backend
 
