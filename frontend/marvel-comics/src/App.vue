@@ -4,43 +4,40 @@
       
       <md-app-toolbar class="md-primary md-large">
         <div class="md-toolbar-row">
-          <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
-            <md-icon>menu</md-icon>
-          </md-button>
-
-          <span class="md-title">Marvel Comics</span>
+          <div class="md-toolbar-section-start">
+            <span class="md-title" style="flex: 1">Marvel Comics</span>
+          </div>
+          <div class="md-toolbar-section-end">
+            <md-button class="md-dense md-raised" @click="getNews">
+              News Comics
+            </md-button>
+          </div>
         </div>
       </md-app-toolbar>
 
-      <md-app-drawer :md-active.sync="menuVisible">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          Navigation
-        </md-toolbar>
-
-        <md-list>
-          <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text">Inbox</span>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon>send</md-icon>
-            <span class="md-list-item-text">Sent Mail</span>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon>delete</md-icon>
-            <span class="md-list-item-text">Trash</span>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon>error</md-icon>
-            <span class="md-list-item-text">Spam</span>
-          </md-list-item>
-        </md-list>
-      </md-app-drawer>
-
       <md-app-content>
+        <md-dialog :md-active.sync="showDialog">
+          <md-dialog-title>News Comics</md-dialog-title>
+
+          <md-table>
+            <md-table-row>
+              <md-table-head md-numeric>Diamond ID</md-table-head>
+              <md-table-head>Title</md-table-head>
+              <md-table-head>Price</md-table-head>
+            </md-table-row>
+
+            <md-table-row v-for="comic in comics" :key="comic.title" v-if="comic.publisher = 'MARVEL COMICS'">
+              <md-table-cell md-numeric>{{ comic.diamond_id }}</md-table-cell>
+              <md-table-cell>{{ comic.title }}</md-table-cell>
+              <md-table-cell>{{ comic.price }}</md-table-cell>
+            </md-table-row>
+          </md-table>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
         <router-view/>
       </md-app-content>
     </md-app>
@@ -67,8 +64,24 @@
 export default {
   name: 'Overlap',
   data: () => ({
-    menuVisible: false
-  })
+    showDialog: false,
+    comics: {}
+  }),
+  mounted() {
+    // this.getNews()
+  },
+  methods: {
+    getNews() {
+      let uri = process.env.VUE_APP_ENDPOINT_COMICS_NEWS
+      this.$http.get(uri).then(response => {
+          this.comics = response.body.comics
+          this.showDialog = true
+      }, response => {
+        alert("erro: " + response)
+        console.log(response)
+      });
+    },
+  }
 }
 </script>
 
