@@ -6,8 +6,26 @@ server {
     # rewrite ^/$ /characters/ redirect;
 
     location /characters/ {
-        add_header 'Access-Control-Allow-Origin' '*'; # permission
+        add_header 'Access-Control-Allow-Origin' '*';
         proxy_pass http://characters:8000/;
         include conf.d/proxy_params;
-    } 
+    }
+
+    location /powers/ {
+        add_header 'Access-Control-Allow-Origin' '*';
+        proxy_pass http://powers:8001/;
+        include conf.d/proxy_params;
+    }
+
+    location /printer/character {
+        add_header 'Access-Control-Allow-Origin' '*';
+        proxy_pass http://printer:8002/pdf/character/;
+        include conf.d/proxy_params;
+    }
+
+    location /news/ {
+        add_header 'Access-Control-Allow-Origin' '*';
+        proxy_pass http://news:8003/;
+        include conf.d/proxy_params;
+    }
 }

@@ -7,7 +7,7 @@ const Inert = require('inert');
 var pdf = require('pdfkit');
 var fs = require('fs');
 
-const urlBase = process.env.URL_BASE;
+const urlBase = process.env.URL_BASE_PROXY;
 
 function printCharacter(data) {
     try {
@@ -41,7 +41,7 @@ server.route({
     handler:function(request,h) {
         let name = request.params.name;
         if ( printCharacter(name) ) {
-            return { result: { url: urlBase + '/pdf/character/' + name + '.pdf' } };
+            return { result: { url: urlBase + '/character/' + name + '.pdf' } };
         } else {
             return { result: { url: null } };
         }

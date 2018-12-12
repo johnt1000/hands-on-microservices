@@ -24,6 +24,9 @@ services:
       - 80:80
     depends_on:
       - characters
+      - powers
+      - news
+      - printer
     volumes:
       - ./gateway:/etc/nginx/conf.d
     networks:
