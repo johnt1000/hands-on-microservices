@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.5.3",
     "axios": "^0.18.0",
     "dotenv": "^6.2.0",
     "hapi": "^17.8.1",
     "md5": "^2.2.1",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "node-cmd": "^3.0.0"
   }
 }
