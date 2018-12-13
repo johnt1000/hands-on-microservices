@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config()
+require('dotenv').config();
 const Hapi = require('hapi');
 const Path = require('path');
 const Inert = require('inert');

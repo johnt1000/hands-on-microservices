@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.5.3",
+    "concurrently": "^4.1.0",
     "dotenv": "^6.2.0",
     "hapi": "^17.8.1",
     "inert": "^5.1.2",
