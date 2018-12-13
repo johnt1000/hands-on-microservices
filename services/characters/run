@@ -1,8 +1,0 @@
-#!/bin/sh
-
-PORT=$1
-
-# cd /app && ngrok http $PORT -log=ngrok.log > /dev/null &
-# sleep 5
-# cd /app && curl --silent --show-error http://127.0.0.1:4040/api/tunnels | sed -nE 's/.*public_url":"https:..([^"]*).*/\1/p' > ngrok.host
-cd /app && npm start
