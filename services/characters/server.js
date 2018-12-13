@@ -5,6 +5,7 @@ const Hapi = require('hapi');
 const axios = require('axios');
 const md5 = require('md5');
 const moment = require('moment');
+const cmd = require('node-cmd');
 
 const urlBase = process.env.MARVEL_ENDPOINT;
 const privateKey = process.env.MARVEL_PRIVATE_KEY;
@@ -104,6 +105,25 @@ server.route({
         
     }
 });
+
+server.route({
+    method:'GET',
+    path:'/print',
+    handler:function(request,h) {
+        
+        var proc =  cmd.get('node rpc_client.js ' + "'" + JSON.stringify(request.query) + "'");
+        let data_line = '';
+
+        return proc.stdout.on(
+            'data',
+            function(data) {
+                data_line += data;
+                return data_line;
+            }
+        );
+    }
+});
+
 
 // Start the server
 async function start() {
