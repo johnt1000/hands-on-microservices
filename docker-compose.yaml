@@ -2,6 +2,20 @@ version: '3'
 
 services:
 
+  rabbit:
+    image: marvel/rabbit
+    restart: always
+    build:
+      context: ./services/rabbit
+    env_file:
+      - ./services/rabbit/.env
+    ports:
+      - 15672:15672
+      - 5672:5672
+      - 25672:25672
+    networks:
+      - backend
+
   web:
     image: marvel/web
     build:
@@ -43,10 +57,10 @@ services:
       - /app/node_modules
     ports:
       - 8000:8000
-    depends_on:
-      - rabbit
     networks:
       - backend
+    depends_on:
+      - rabbit
 
   powers:
     image: marvel/powers
@@ -58,21 +72,6 @@ services:
       - /app/node_modules
     ports:
       - 8001:8001
-    networks:
-      - backend
-    
-  printer:
-    image: marvel/printer
-    restart: always
-    build:
-      context: ./services/printer
-    volumes:
-      - ./services/printer:/app
-      - /app/node_modules
-    ports:
-      - 8002:8002
-    depends_on:
-      - rabbit
     networks:
       - backend
 
@@ -88,20 +87,21 @@ services:
       - 8003:8003
     networks:
       - backend
-    
-  rabbit:
-    image: marvel/rabbit
+
+  printer:
+    image: marvel/printer
     restart: always
     build:
-      context: ./services/rabbit
-    env_file:
-      - ./services/rabbit/.env
+      context: ./services/printer
+    volumes:
+      - ./services/printer:/app
+      - /app/node_modules
     ports:
-      - 15672:15672
-      - 5672:5672
-      - 25672:25672
+      - 8002:8002
     networks:
       - backend
+    depends_on:
+      - rabbit
 
 networks:
   backend:

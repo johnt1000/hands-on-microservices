@@ -6,6 +6,10 @@
             :alt="personage.name"
         >
 
+        <md-button @click="getPrint(personage)" class="md-icon-button md-fab md-primary">
+            <md-icon>print</md-icon>
+        </md-button>
+
         <router-link to="/">
             <md-button class="md-icon-button md-fab md-primary">
                 <md-icon>arrow_back</md-icon>
@@ -95,7 +99,6 @@ export default {
             this.$http.get(uri).then(response => {
                 this.personage = response.body.data.results[0]
                 this.getPowers(this.personage.name)
-                console.log(this.personage)
             }, response => {
                 console.log(response)
             });
@@ -104,7 +107,40 @@ export default {
             let uri = process.env.VUE_APP_ENDPOINT_CHARACTER_POWERS + '/' + name
             this.$http.get(uri).then(response => {
                 this.powers = response.body
-                console.log(this.powers)
+            }, response => {
+                console.log(response)
+            });
+        },
+        getPrint(obj) {
+            var FileSaver = require('file-saver')
+
+            let uri = process.env.VUE_APP_ENDPOINT_CHARACTER_PRINT + '?id=' + obj.id + '&name=' + obj.name + '&description=' + obj.description
+            this.$http.get(uri).then(response => {
+                var data = JSON.parse(response.bodyText.toString())
+                var oReq = new XMLHttpRequest();
+                // The Endpoint of your server 
+                var URLToPDF = data.data.url;
+
+                // Configure XMLHttpRequest
+                oReq.open("GET", URLToPDF, true);
+
+                // Important to use the blob response type
+                oReq.responseType = "blob";
+
+                // When the file request finishes
+                // Is up to you, the configuration for error events etc.
+                oReq.onload = function() {
+                    // Once the file is downloaded, open a new window with the PDF
+                    // Remember to allow the POP-UPS in your browser
+                    var file = new Blob([oReq.response], { 
+                        type: 'application/pdf' 
+                    });
+                    
+                    // Generate file download directly in the browser !
+                    FileSaver.saveAs(file, "ficha.pdf");
+                };
+
+                oReq.send();
             }, response => {
                 console.log(response)
             });
@@ -131,5 +167,8 @@ img {
 }
 .viewport {
     margin-bottom: 2%;
+}
+a {
+    float: right;
 }
 </style>
